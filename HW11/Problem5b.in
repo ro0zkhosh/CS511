@@ -1,16 +1,21 @@
-% run by executing command:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Run by executing command: mace4 -c -f problem5b.in > problem5b.out
 %
-%  mace4 -c -f Problem5b.in > Problem5b.out
+%    
+% (ignore the flags "-f", "-c", and "-n8", though you can find their
+%  meanings in the Prover9+Mace4 documentation)
 %
+% Recommended parameters:
 
-
+set(binary_resolution).
 clear(print_initial_clauses).
 clear(print_kept).
 clear(print_given).
-assign(max_seconds,20).
+assign(max_seconds,1).
 assign(stats,none).
 
 formulas(assumptions).
+
 
 % po-set - lattice - distributive 
 R(x,x).
