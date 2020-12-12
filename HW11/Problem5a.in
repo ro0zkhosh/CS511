@@ -1,0 +1,34 @@
+
+%
+%  mace4 -c -f problem-a.in > problem-a.out
+%
+
+
+clear(print_initial_clauses).
+clear(print_kept).
+clear(print_given).
+assign(max_seconds,20).
+assign(stats,none).
+
+formulas(assumptions).
+
+% po-set - lattice - distributive 
+R(x,x).
+R(x,y) & R(y,x) -> x = y.
+R(x,y) & R(y,z) -> R(x,z).
+
+R(Bot,x).
+R(x,Top).
+R(LUB(x,y),z) <-> R(x,z) & R(y,z). 
+R(z,GLB(x,y)) <-> R(z,x) & R(z,y).
+
+GLB(x,LUB(y,z)) = LUB(GLB(x,y), GLB(x,z)).
+LUB(x,GLB(y,z)) = GLB(LUB(x,y), LUB(x,z)).
+
+end_of_list.
+
+formulas(goals).
+
+exists y (LUB(x,y) = Top & GLB(x,y) = Bot).
+
+end_of_list.

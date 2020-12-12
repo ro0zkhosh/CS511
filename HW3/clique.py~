@@ -1,0 +1,9 @@
+from z3 import *
+
+# Define Graph config
+Graph []
+
+# Input Graph
+
+
+# Adding Constraints

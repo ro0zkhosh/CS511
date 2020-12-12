@@ -1,0 +1,57 @@
+% 2020-09-23 Shahin
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Run by executing command:
+%
+% mace4 -c -f assaf_steamroller1.in > assaf_steamroller1.mace4.out
+% or
+%    $ mace4 -n8 -f assaf_steamroller1.in > assaf_steamroller1.mace4.out
+%
+% (ignore the flags "-f", "-c", and "-n8", though you can find their
+%  meanings in the Prover9+Mace4 documentation)
+%
+% Recommended parameters:
+
+set(binary_resolution).
+clear(print_initial_clauses).
+clear(print_kept).
+clear(print_given).
+assign(max_seconds,10).
+assign(stats,none).
+
+% commenting out any of the lines starting with "clear",
+% as well as changing the "stats" level, will produce more output.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+formulas(assumptions).
+
+% We define an abelian group and look for the counter example using mace :D
+% RUN WITH MACE4: mace4 -c -f 
+
+
+% A non-Abelian group, also sometimes known as a noncommutative group,
+%is a group some of whose elements do not commute. The simplest non-Abelian
+%group is the dihedral group D3, which is of group order six.
+
+% A (bad) mathematical jokes runs as follows.
+%Q: What's purple and works from home? A: A non-Abelian grape. (It doesn't commute.)
+
+%Defining a group:
+% three axioms of group theory
+
+ m(m(x,y),z) = m(x,m(y,z)).    % m is associative
+ m(x,e) = x.                   % e is a right identity
+ m(x,i(x)) = e.                % i(x) is right inverse of x
+
+
+ %m(x,y) = m(y,x).
+ %exists x exists y ((m(x,y) != m(y,x)) ).
+
+
+end_of_list.
+ 
+formulas(goals).
+
+ m(x,y) = m(y,x).             % m is commutative
+ 
+end_of_list.

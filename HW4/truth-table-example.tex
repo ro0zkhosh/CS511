@@ -1,0 +1,31 @@
+% truth-table-example.tex
+
+\documentclass[11pt,leqno,fleqn]{article}
+
+\usepackage{bm}       % unlike \boldmath
+                      % \bm can be used anywhere within math mode
+
+\begin{document}
+
+\newcommand{\TTT}{\bm{\mathsf{T}}}
+\newcommand{\FFF}{\bm{\mathsf{F}}}
+
+truth-table for propositional WFF 
+$(P\to\neg{Q})\to (Q\lor\neg{P})$
+
+\[
+\begin{array}{ c | c || c | c | c | c | c }
+ P & Q & \neg{P} & \neg{Q} 
+    & P\to\neg{Q} & Q\lor\neg{P} & (P\to\neg{Q})\to (Q\lor\neg{P})
+\\ \hline 
+ \TTT & \TTT & \FFF & \FFF & \FFF & \TTT & \TTT 
+\\ \hline  
+ \TTT & \FFF & \FFF & \TTT & \TTT & \FFF & \FFF    
+\\ \hline  
+ \FFF & \TTT & \TTT & \FFF & \TTT & \TTT & \TTT    
+\\ \hline  
+ \FFF & \FFF & \TTT & \TTT & \TTT & \TTT & \TTT    
+\end{array}
+\]
+
+\end{document}

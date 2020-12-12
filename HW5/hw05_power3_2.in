@@ -1,0 +1,40 @@
+% 2020-09-23 Shahin
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Run by executing command:
+% For Search Failed:
+% prover9 -f  hw05_power3_2.in > hw05_power3_2.mace4.out
+% For Counter example:
+% mace4 -c -f  hw05_power3_2.in > hw05_power3_2.mace4.out
+%
+% (ignore the flags "-f", "-c", and "-n8", though you can find their
+%  meanings in the Prover9+Mace4 documentation)
+%
+% Recommended parameters:
+
+set(binary_resolution).
+clear(print_initial_clauses).
+clear(print_kept).
+clear(print_given).
+assign(max_seconds,10).
+assign(stats,none).
+
+% commenting out any of the lines starting with "clear",
+% as well as changing the "stats" level, will produce more output.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+formulas(assumptions).
+
+in_a_0 = in_b_0.
+
+(out_a_0 = in_a_0) & (out_a_1 = mult(out_a_0, in_a_0)) & (out_a_2 = mult(out_a_1,in_a_0)) &  (out_a_3 = mult(out_a_2,in_a_0)). %phi_a^inc
+
+(out_b_0 = mult(mult(in_b_0, in_b_0), in_b_0)). %phi_b
+
+end_of_list.
+ 
+formulas(goals).
+
+(out_a_3 = out_b_0).
+
+end_of_list.

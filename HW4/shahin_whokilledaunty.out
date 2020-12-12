@@ -1,0 +1,129 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2009-11A, November 2009.
+Process 49643 was started by ro0zkhosh on tower,
+Fri Oct  2 20:23:49 2020
+The command was "prover9".
+============================== end of head ===========================
+
+============================== INPUT =================================
+set(binary_resolution).
+clear(print_initial_clauses).
+clear(print_kept).
+clear(print_given).
+assign(max_seconds,1).
+assign(stats,none).
+
+formulas(assumptions).
+(exists x (LivesIn(x,D) & Killed(x,A))).
+LivesIn(A,D) & LivesIn(B,D) & LivesIn(C,D) & (all x (LivesIn(x,D) -> x = A | x = B | x = C)).
+(all x Killed(x,y)) -> Hates(x,y) & -RicherThan(x,y).
+(all x Hates(A,x)) -> -Hates(C,x).
+(all x (x != B -> Hates(A,x))).
+(all x (-RicherThan(x,A) -> Hates(B,x))).
+(all x Hates(A,x)) -> Hates(B,x).
+(all y exists x -Hates(y,x)).
+A != B.
+end_of_list.
+
+formulas(goals).
+(exists x ((x = A | x = C | x = B) & Killed(x,A))).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 (exists x (LivesIn(x,D) & Killed(x,A))) # label(non_clause).  [assumption].
+2 LivesIn(A,D) & LivesIn(B,D) & LivesIn(C,D) & (all x (LivesIn(x,D) -> x = A | x = B | x = C)) # label(non_clause).  [assumption].
+3 (all x Killed(x,y)) -> Hates(x,y) & -RicherThan(x,y) # label(non_clause).  [assumption].
+4 (all x Hates(A,x)) -> -Hates(C,x) # label(non_clause).  [assumption].
+5 (all x (x != B -> Hates(A,x))) # label(non_clause).  [assumption].
+6 (all x (-RicherThan(x,A) -> Hates(B,x))) # label(non_clause).  [assumption].
+7 (all x Hates(A,x)) -> Hates(B,x) # label(non_clause).  [assumption].
+8 (all y exists x -Hates(y,x)) # label(non_clause).  [assumption].
+9 (exists x ((x = A | x = C | x = B) & Killed(x,A))) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+============================== PREDICATE ELIMINATION =================
+
+Eliminating RicherThan/2
+10 RicherThan(x,A) | Hates(B,x).  [clausify(6)].
+11 -Killed(f1(x,y),x) | -RicherThan(y,x).  [clausify(3)].
+Derived: Hates(B,x) | -Killed(f1(A,x),A).  [resolve(10,a,11,b)].
+
+============================== end predicate elimination =============
+
+Auto_denials:  (non-Horn, no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ =, Hates, LivesIn, Killed ]).
+Function symbol precedence:  function_order([ A, B, D, C, c1, f1, f2, f3, f4 ]).
+After inverse_order:  (no changes).
+Unfolding symbols: (none).
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+  % set(binary_resolution).  % (non-Horn)
+  % set(neg_ur_resolution).  % (non-Horn, less than 100 clauses)
+
+Auto_process settings:
+  % set(factor).  % (non-Horn)
+  % set(unit_deletion).  % (non-Horn)
+
+============================== end of process initial clauses ========
+
+============================== CLAUSES FOR SEARCH ====================
+
+============================== end of clauses for search =============
+
+============================== SEARCH ================================
+
+% Starting search at 0.01 seconds.
+
+============================== PROOF =================================
+
+% Proof 1 at 0.01 (+ 0.00) seconds.
+% Length of proof is 16.
+% Level of proof is 6.
+% Maximum clause weight is 12.000.
+% Given clauses 15.
+
+1 (exists x (LivesIn(x,D) & Killed(x,A))) # label(non_clause).  [assumption].
+2 LivesIn(A,D) & LivesIn(B,D) & LivesIn(C,D) & (all x (LivesIn(x,D) -> x = A | x = B | x = C)) # label(non_clause).  [assumption].
+9 (exists x ((x = A | x = C | x = B) & Killed(x,A))) # label(non_clause) # label(goal).  [goal].
+12 LivesIn(c1,D).  [clausify(1)].
+13 Killed(c1,A).  [clausify(1)].
+17 -LivesIn(x,D) | A = x | B = x | C = x.  [clausify(2)].
+25 A != x | -Killed(x,A).  [deny(9)].
+26 C != x | -Killed(x,A).  [deny(9)].
+27 B != x | -Killed(x,A).  [deny(9)].
+29 c1 = A | c1 = B | c1 = C.  [resolve(17,a,12,a),flip(a),flip(b),flip(c)].
+34 c1 != A.  [resolve(25,b,13,a),flip(a)].
+36 c1 = B | c1 = C.  [back_unit_del(29),unit_del(a,34)].
+37 c1 != C.  [resolve(26,b,13,a),flip(a)].
+39 c1 = B.  [back_unit_del(36),unit_del(b,37)].
+41 Killed(B,A).  [back_rewrite(13),rewrite([39(1)])].
+42 $F.  [ur(27,a,xx),unit_del(a,41)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=15. Generated=37. Kept=29. proofs=1.
+Usable=13. Sos=10. Demods=2. Limbo=0, Disabled=24. Hints=0.
+Megabytes=0.09.
+User_CPU=0.01, System_CPU=0.00, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+Process 49643 exit (max_proofs) Fri Oct  2 20:23:49 2020

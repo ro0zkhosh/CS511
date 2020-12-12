@@ -1,0 +1,85 @@
+% 2020-09-23 Assaf Kfoury
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Run by executing command:
+%
+%    $ prover9 < assaf_steamroller1.in
+% or
+%    $ prover9 -f assaf_steamroller1.in > assaf_steamroller1.prover9.out
+% or
+%    $ mace4 -c -f assaf_steamroller1.in > assaf_steamroller1.mace4.out
+% or
+%    $ mace4 -n8 -f assaf_steamroller1.in > assaf_steamroller1.mace4.out
+%
+% (ignore the flags "-f", "-c", and "-n8", though you can find their
+%  meanings in the Prover9+Mace4 documentation)
+%
+% Recommended parameters:
+
+set(binary_resolution).
+clear(print_initial_clauses).
+clear(print_kept).
+clear(print_given).
+assign(max_seconds,1).
+assign(stats,none).
+
+% commenting out any of the lines starting with "clear",
+% as well as changing the "stats" level, will produce more output.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1. Someone who lives in Dreadbury Mansion Killed Aunt Agatha.
+% 2. Agatha, the butler, and Charles live in Dreadbury Mansion, and are the only people who live
+% therein.
+% 3. A killer always Hates his victim, and is never RicherThan than his victim.
+% 4. Charles Hates no one that Aunt Agatha Hates.
+% 5. Agatha Hates everyone except the butler.
+% 6. The butler Hates everyone not RicherThan than Aunt Agatha.
+% 7. The butler Hates everyone Aunt Agatha Hates.
+% 8. No one Hates everyone.
+% 9. Agatha is not the butler.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+formulas(assumptions).
+
+% 1. Someone who lives in Dreadbury Mansion Killed Aunt Agatha.
+exists x ( LivesIn(x, D) & Killed(x, A) ).
+
+% 2. Agatha, the butler, and Charles live in Dreadbury Mansion, and are the only people who live therein.
+LivesIn(A, D) &
+LivesIn(B, D) &
+LivesIn(C, D) & 
+(all x (LivesIn(x, D) -> (x = A | x = B| x = C)) ).
+
+% 3. A killer always Hates his victim, and is never RicherThan than his victim.
+all x Killed(x, y) -> ( Hates(x, y) & -(RicherThan(x, y)) ).
+
+% 4. C Hates no one that Aunt Agatha Hates.
+all x Hates(A, x) -> -Hates(C, x).
+
+% % 5. Agatha Hates everyone except the butler.
+all x ( ( x!= B) -> Hates(A, x) ).
+
+% 6. The butler Hates everyone not RicherThan than Aunt Agatha.
+all x ( -RicherThan(x, A) -> Hates(B, x) ).
+
+% 7. The butler Hates everyone Aunt Agatha Hates.
+all x (Hates(A, x) -> Hates(B, x)).
+
+% 8. No one Hates everyone.
+all y (exists x -Hates(y,x)).
+
+% % 9. Agatha is not the butler.
+(A != B).
+
+
+%Killed(B,A).
+end_of_list.
+
+formulas(goals).
+
+exists x ( (x = A | x = C | x = B) & Killed(x, A) ).
+%exists x ( (x = B) & Killed(x, A) ).
+
+
+end_of_list.

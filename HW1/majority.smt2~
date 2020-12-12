@@ -1,0 +1,4 @@
+; Boolean majority function over three
+; variables {x,y,z}
+
+(echo "Hello Z3 world!")

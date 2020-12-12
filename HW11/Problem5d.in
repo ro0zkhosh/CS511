@@ -1,0 +1,39 @@
+% run by executing command:
+%
+%  mace4 -c -f Problem5d.in > Problem5d.out
+%
+
+
+clear(print_initial_clauses).
+clear(print_kept).
+clear(print_given).
+assign(max_seconds,20).
+assign(stats,none).
+
+formulas(assumptions).
+
+% po-set - lattice - distributive  - bool - Nh
+R(x,x).
+R(x,y) & R(y,x) -> x = y.
+R(x,y) & R(y,z) -> R(x,z).
+
+R(Bot,x).
+R(x,Top).
+R(LUB(x,y),z) <-> R(x,z) & R(y,z). 
+R(z,GLB(x,y)) <-> R(z,x) & R(z,y).
+
+GLB(x,LUB(y,z)) = LUB(GLB(x,y), GLB(x,z)).
+LUB(x,GLB(y,z)) = GLB(LUB(x,y), LUB(x,z)).
+
+
+LUB(x,N(x)) = Top.
+GLB(x,N(x)) = Bot.
+
+-(R(x,He(y,z)) <-> R(GLB(x,y),z)).
+
+
+end_of_list.
+
+formulas(goals).
+-(He(x,y) = LUB(N(x),y)).
+end_of_list.
